@@ -1,0 +1,21 @@
+/* Fonte moderna via Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* Reset básico + tipografia global */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; /* remove a borda branca padrão do navegador */
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #0f172a; /* cinza bem escuro, legível */
+}
+
+h1, h2, h3 { font-weight: 800; }
+h4, h5, h6 { font-weight: 700; }
+
+/* Opcional: se quiser hero 100% colado nas bordas internas, sem "respiro" lateral */
+.hp-hero .container { padding-left: 0; padding-right: 0; }
+
+:root { --bs-body-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }

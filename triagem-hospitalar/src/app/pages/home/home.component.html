@@ -1,0 +1,77 @@
+<!-- Navbar sobre o hero -->
+<header class="hp-header">
+  <nav class="container hp-nav">
+    <div class="logo">
+        <img class="cruz" src="assets/cruz.png" alt="Cruz" />
+        <a class="brand" routerLink="/">Triagem Municipal</a>
+    </div>
+    <ul class="menu">
+      <li><a routerLink="/">Início</a></li>
+      <li><a routerLink="/triagem">Triagem</a></li>
+      <li><a routerLink="/resultados">Hospitais</a></li>
+      <li><a routerLink="/confirmacao">Encaminhamento</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hp-hero">
+  <div class="container hero-grid">
+
+    <!-- Coluna esquerda: imagem da médica -->
+    <div class="doctor-wrap">
+      <img class="doctor" src="assets/doctor.png" alt="Profissional de saúde" />
+    </div>
+
+    <!-- Coluna direita: headline e CTA -->
+    <div class="hero-copy">
+      <h1>Mais saúde, menos espera</h1>
+      <p class="lead">
+        Responda ao questionário e indicaremos o hospital mais adequado, considerando sintomas,
+        especialidades, médicos de plantão e tempo de espera previsto.
+      </p>
+      <div class="cta">
+        <button class="btn btn-primary btn-lg" (click)="startTriage()"><span>Iniciar triagem</span></button>
+        <button class="btn btn-outline-light btn-lg" (click)="useMyLocation()">Hospitais próximos</button>
+      </div>
+
+      <!-- Indicadores decorativos (dots) -->
+      <div class="dots" aria-hidden="true">
+        <span></span><span class="active"></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card de métricas flutuante -->
+  <div class="stats container">
+    <div class="stat">
+      <div class="value">{{ stats.hospitals }}</div>
+      <div class="label">Hospitais Disponíveis</div>
+    </div>
+    <div class="stat">
+      <div class="value">{{ stats.onDuty }}</div>
+      <div class="label">Médicos de Plantão</div>
+    </div>
+    <div class="stat">
+      <div class="value">{{ stats.waitMin }}<span class="unit">min</span></div>
+      <div class="label">Espera Média</div>
+    </div>
+  </div>
+
+  <!-- Onda separadora -->
+  <svg class="wave" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,58.7C840,64,960,96,1080,106.7C1200,117,1320,107,1380,101.3L1440,96L1440,160L1380,160C1320,160,1200,160,1080,160C960,160,840,160,720,160C600,160,480,160,360,160C240,160,120,160,60,160L0,160Z"></path>
+  </svg>
+</section>
+
+<!-- Seção seguinte (exemplo) -->
+<section class="hp-next container">
+  <div class="copy">
+    <h2>Uma solução de triagem extraordinária</h2>
+    <p>
+      Pensada para agilizar seu atendimento e otimizar o uso da rede hospitalar municipal.
+      Transparente, simples e gratuita.
+    </p>
+    <a class="btn btn-outline-primary btn-lg" routerLink="/triagem">Começar agora</a>
+  </div>
+</section>

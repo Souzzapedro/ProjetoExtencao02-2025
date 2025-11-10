@@ -1,77 +1,139 @@
-<!-- Navbar sobre o hero -->
 <header class="hp-header">
   <nav class="container hp-nav">
-    <div class="logo">
-        <img class="cruz" src="assets/cruz.png" alt="Cruz" />
-        <a class="brand" routerLink="/">Triagem Municipal</a>
-    </div>
-    <ul class="menu">
-      <li><a routerLink="/">Início</a></li>
-      <li><a routerLink="/triagem">Triagem</a></li>
-      <li><a routerLink="/resultados">Hospitais</a></li>
-      <li><a routerLink="/confirmacao">Encaminhamento</a></li>
+    <a class="brand brand-logo" routerLink="/" aria-label="Saúde Maps - Início">
+      <svg class="brand-icon" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2B78FF" />
+            <stop offset="100%" stop-color="#22C55E" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#grad-icon)" />
+        <g transform="translate(24,24) scale(1.3) translate(-12,-12)">
+          <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+                fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="brand-name">Saúde Maps</span>
+    </a>
+
+    <ul class="menu" role="navigation" aria-label="Menu principal">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a></li>
+      <li><a routerLink="/triagem" routerLinkActive="active">Triagem</a></li>
+      <li><a routerLink="/resultados" routerLinkActive="active">Hospitais</a></li>
     </ul>
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hp-hero">
-  <div class="container hero-grid">
 
-    <!-- Coluna esquerda: imagem da médica -->
-    <div class="doctor-wrap">
-      <img class="doctor" src="assets/doctor.png" alt="Profissional de saúde" />
-    </div>
-
-    <!-- Coluna direita: headline e CTA -->
+<!-- HERO (tema claro + fundo degradê azul→verde) -->
+<section class="hp-hero light-hero">
+  <div class="container hero-wrap">
     <div class="hero-copy">
       <h1>Mais saúde, menos espera</h1>
       <p class="lead">
         Responda ao questionário e indicaremos o hospital mais adequado, considerando sintomas,
         especialidades, médicos de plantão e tempo de espera previsto.
       </p>
+
+      <ul class="features" aria-label="Destaques">
+        <!-- Triagem Online (azul) -->
+        <li class="feature-card is-blue">
+          <span class="icon-badge">
+            <!-- coração -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="feature-text">Triagem Online</span>
+        </li>
+
+        <!-- Mais Próximo (verde) -->
+        <li class="feature-card is-green">
+          <span class="icon-badge">
+            <!-- pin -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+                    stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="feature-text">Mais Próximo</span>
+        </li>
+
+        <!-- Tempo Real (azul) -->
+        <li class="feature-card is-blue">
+          <span class="icon-badge">
+            <!-- celular -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="8" y="3.5" width="8" height="17" rx="2" stroke="currentColor" stroke-width="2"/>
+              <circle cx="12" cy="17.5" r="1.1" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="feature-text">Tempo Real</span>
+        </li>
+      </ul>
+
       <div class="cta">
         <button class="btn btn-primary btn-lg" (click)="startTriage()"><span>Iniciar triagem</span></button>
-        <button class="btn btn-outline-light btn-lg" (click)="useMyLocation()">Hospitais próximos</button>
-      </div>
-
-      <!-- Indicadores decorativos (dots) -->
-      <div class="dots" aria-hidden="true">
-        <span></span><span class="active"></span><span></span><span></span>
+        <button class="btn btn-outline-dark btn-lg" (click)="useMyLocation()">Hospitais próximos</button>
       </div>
     </div>
   </div>
 
-  <!-- Card de métricas flutuante -->
-  <div class="stats container">
-    <div class="stat">
-      <div class="value">{{ stats.hospitals }}</div>
-      <div class="label">Hospitais Disponíveis</div>
-    </div>
-    <div class="stat">
-      <div class="value">{{ stats.onDuty }}</div>
-      <div class="label">Médicos de Plantão</div>
-    </div>
-    <div class="stat">
-      <div class="value">{{ stats.waitMin }}<span class="unit">min</span></div>
-      <div class="label">Espera Média</div>
-    </div>
-  </div>
+<!-- Métricas (novo layout roxo) -->
+<div class="stats container stats-purple">
+  <!-- Card 1 -->
+  <article class="metric-card theme-pink">
+    <span class="metric-badge">
+      <!-- coração -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+              fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <h3 class="metric-title">Humanização</h3>
+    <p class="metric-sub">Tecnologia a serviço das pessoas, não o contrário</p>
+  </article>
+
+  <!-- Card 2 -->
+  <article class="metric-card theme-gold">
+    <span class="metric-badge">
+      <!-- raio -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
+              fill="currentColor"/>
+      </svg>
+    </span>
+    <h3 class="metric-title">Eficiência</h3>
+    <p class="metric-sub">Otimização de recursos para máximo impacto social</p>
+  </article>
+
+  <!-- Card 3 -->
+  <article class="metric-card theme-cyan">
+    <span class="metric-badge">
+      <!-- usuários -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-7 8a7 7 0 0 1 14 0"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <h3 class="metric-title">Colaboração</h3>
+    <p class="metric-sub">Comunidade unida construindo um sistema melhor</p>
+  </article>
+</div>
 
   <!-- Onda separadora -->
   <svg class="wave" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,58.7C840,64,960,96,1080,106.7C1200,117,1320,107,1380,101.3L1440,96L1440,160L1380,160C1320,160,1200,160,1080,160C960,160,840,160,720,160C600,160,480,160,360,160C240,160,120,160,60,160L0,160Z"></path>
+    <path d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,58.7C840,64,960,96,1080,106.7C1200,117,1320,107,1380,101.3L1440,96L1440,160L0,160Z"></path>
   </svg>
 </section>
 
-<!-- Seção seguinte (exemplo) -->
+<!-- Próxima seção -->
 <section class="hp-next container">
   <div class="copy">
     <h2>Uma solução de triagem extraordinária</h2>
-    <p>
-      Pensada para agilizar seu atendimento e otimizar o uso da rede hospitalar municipal.
-      Transparente, simples e gratuita.
-    </p>
-    <a class="btn btn-outline-primary btn-lg" routerLink="/triagem">Começar agora</a>
+    <p>Pensada para agilizar seu atendimento e otimizar o uso da rede hospitalar municipal. Transparente, simples e gratuita.</p>
+    <a class="btn btn-outline-primary btn-lg" style="text-decoration: none;" routerLink="/triagem">Começar agora</a>
   </div>
 </section>

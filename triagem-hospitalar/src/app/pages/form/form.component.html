@@ -1,1 +1,154 @@
-<p>form works!</p>
+<header class="hp-header">
+  <nav class="container hp-nav">
+    <a class="brand brand-logo"
+       routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+       aria-label="Saúde Maps - Início">
+      <svg class="brand-icon" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%">
+            <stop offset="0%" stop-color="#2B78FF" />
+            <stop offset="100%" stop-color="#22C55E" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#grad-icon)" />
+        <g transform="translate(24,24) scale(1.3) translate(-12,-12)">
+          <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+                fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="brand-name">Saúde Maps</span>
+    </a>
+
+    <ul class="menu" role="navigation" aria-label="Menu principal">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a></li>
+      <li><a routerLink="/triagem" routerLinkActive="active">Triagem</a></li>
+      <li><a routerLink="/resultados" routerLinkActive="active">Hospitais</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<!-- Hero (sem ondas; texto alinhado à esquerda) -->
+<section class="hp-hero light-hero">
+  <div class="container hero-wrap">
+    <div class="hero-copy">
+      <h1>Encontre o hospital ideal agora</h1>
+      <p class="lead">Responda rapidamente — indicaremos o melhor local para seu atendimento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Página (rolagem global) -->
+<main class="page">
+  <section class="triage-wrap">
+
+    <a class="back-title" routerLink="/">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15.5 19.5 8 12l7.5-7.5 1.5 1.5L11 12l6 6-1.5 1.5Z"/>
+      </svg>
+      <span>Triagem Digital</span>
+    </a>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="triage-form card">
+      <!-- 1) Sexo (segmentado) -->
+      <fieldset class="fieldset">
+        <legend class="legend">Quem está sendo atendido?</legend>
+        <div class="field">
+          <label class="sr-only" for="sexo">Sexo</label>
+          <div id="sexo" class="segmented" role="radiogroup" aria-label="Sexo">
+            <label class="segment">
+              <input type="radio" formControlName="sexo" value="F" class="peer sr-only" />
+              <span class="segment-pill">Feminino</span>
+            </label>
+            <label class="segment">
+              <input type="radio" formControlName="sexo" value="M" class="peer sr-only" />
+              <span class="segment-pill">Masculino</span>
+            </label>
+            <label class="segment">
+              <input type="radio" formControlName="sexo" value="O" class="peer sr-only" />
+              <span class="segment-pill">Outro</span>
+            </label>
+          </div>
+          <small class="hint" *ngIf="submitted && form.get('sexo')?.invalid">Selecione uma opção.</small>
+        </div>
+
+        <div class="field">
+          <label class="label-descricao" for="idade">Idade</label>
+          <input id="idade" type="number" min="0" max="120" inputmode="numeric"
+                 formControlName="idade" placeholder="Ex.: 34" />
+          <small class="hint" *ngIf="submitted && form.get('idade')?.invalid">Informe uma idade válida.</small>
+        </div>
+      </fieldset>
+
+      <!-- 2) É emergência? (um toque) -->
+      <fieldset class="fieldset">
+        <legend class="legend">É emergência?</legend>
+        <div class="chips-wrap">
+          <label class="chip selectable">
+            <input type="checkbox" formControlName="dorPeito" class="sr-only" />
+            <span>Dor no peito</span>
+          </label>
+          <label class="chip selectable">
+            <input type="checkbox" formControlName="acidente" class="sr-only" />
+            <span>Acidente</span>
+          </label>
+          <label class="chip selectable">
+            <input type="checkbox" formControlName="faltaAr" class="sr-only" />
+            <span>Falta de ar</span>
+          </label>
+          <label class="chip selectable">
+            <input type="checkbox" formControlName="sangramento" class="sr-only" />
+            <span>Sangramento</span>
+          </label>
+          <label class="chip selectable">
+            <input type="checkbox" formControlName="convulsao" class="sr-only" />
+            <span>Convulsão</span>
+          </label>
+        </div>
+        <p class="micro-tip">Se marcar alguma destas opções, vamos priorizar emergências.</p>
+      </fieldset>
+
+      <!-- 3) Gestante (toggle) -->
+      <fieldset class="fieldset">
+        <legend class="legend">Informação importante</legend>
+        <div class="toggle-line">
+          <label class="switch">
+            <input type="checkbox" formControlName="gestante" />
+            <span class="slider"></span>
+          </label>
+          <span>Paciente gestante</span>
+        </div>
+      </fieldset>
+
+      <!-- 4) Sintomas (chips + campo livre) -->
+      <fieldset class="fieldset">
+        <legend class="legend">Sintomas</legend>
+
+        <div class="chips-wrap">
+          <label class="chip selectable" *ngFor="let s of sintomasComuns; trackBy: trackBySintoma">
+            <input
+              type="checkbox"
+              [value]="s"
+              (change)="toggleSintoma($event)"
+              [checked]="isSintomaSelecionado(s)"
+              class="sr-only" />
+            <span>{{ s }}</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label-descricao" for="outrosSintomas">Descreva outros sintomas (opcional)</label>
+          <input id="outrosSintomas" type="text" formControlName="outrosSintomas"
+                placeholder="Ex.: febre alta, náusea..." />
+        </div>
+      </fieldset>
+
+      <!-- CTA único (menos cliques) -->
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">
+          <span>Encontrar hospital agora</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

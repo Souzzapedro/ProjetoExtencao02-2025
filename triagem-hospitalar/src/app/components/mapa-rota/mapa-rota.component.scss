@@ -1,0 +1,39 @@
+.map-wrapper {
+  position: relative;
+
+  &.loading::after {
+    content: 'Calculando rota...';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.95rem;
+    background: rgba(0,0,0,.04);
+    backdrop-filter: blur(1px);
+  }
+}
+
+.painel-info {
+  margin-top: .5rem;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .35rem .6rem;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 999px;
+    background: #fff;
+
+    .lbl { font-weight: 600; color: #222; }
+  }
+}
+
+.erro {
+  margin-top: .5rem;
+  color: #b00020;
+  font-weight: 600;
+}

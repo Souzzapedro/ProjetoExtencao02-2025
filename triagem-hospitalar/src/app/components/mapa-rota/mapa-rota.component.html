@@ -1,0 +1,35 @@
+<div class="map-wrapper" [class.loading]="carregandoRota">
+  <google-map
+    height="420px"
+    width="100%"
+    [center]="center"
+    [zoom]="zoom"
+    [options]="mapOptions">
+
+    <!-- Rota renderizada -->
+    <map-directions-renderer
+      *ngIf="directionsResult"
+      [directions]="directionsResult">
+    </map-directions-renderer>
+
+    <!-- Marcadores quando não há rota -->
+    <map-marker
+      *ngIf="!directionsResult && origemMarker()"
+      [position]="origemMarker()!"
+      [options]="origemMarkerOptions">
+    </map-marker>
+
+    <map-marker
+      *ngIf="!directionsResult && destinoMarker()"
+      [position]="destinoMarker()!"
+      [options]="{ title: destino?.nome || 'Destino (Hospital)' }">
+    </map-marker>
+  </google-map>
+
+  <div class="painel-info" *ngIf="distanciaStr || duracaoStr">
+    <div class="pill"><span class="lbl">Distância:</span> {{ distanciaStr }}</div>
+    <div class="pill"><span class="lbl">Tempo:</span> {{ duracaoStr }}</div>
+  </div>
+
+  <div class="erro" *ngIf="erro">{{ erro }}</div>
+</div>

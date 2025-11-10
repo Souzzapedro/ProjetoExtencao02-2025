@@ -1,0 +1,65 @@
+.osm-map {
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-wrapper {
+  position: relative;
+
+  &.loading::after {
+    content: 'Calculando rota...';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.95rem;
+    background: rgba(0,0,0,.04);
+    backdrop-filter: blur(1px);
+  }
+}
+
+.painel-info {
+  margin-top: .5rem;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .35rem .6rem;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 999px;
+    background: #fff;
+
+    .lbl { font-weight: 600; color: #222; }
+  }
+}
+
+.erro {
+  margin-top: .5rem;
+  color: #b00020;
+  font-weight: 600;
+}
+
+/* Marcadores (DivIcon) */
+.marker-origin,
+.marker-destino {
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.marker-origin {
+  width: 16px; height: 16px;
+  background: #0a84ff;
+  border: 2px solid #0a84ff;
+}
+
+.marker-destino {
+  width: 18px; height: 18px;
+  background: #21ba45;
+  border: 2px solid #21ba45;
+}

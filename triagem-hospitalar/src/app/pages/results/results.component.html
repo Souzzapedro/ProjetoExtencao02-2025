@@ -1,1 +1,141 @@
-<p>results works!</p>
+<header class="hp-header">
+  <nav class="container hp-nav">
+    <a class="brand brand-logo"
+       routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+       aria-label="Saúde Maps - Início">
+      <svg class="brand-icon" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%">
+            <stop offset="0%" stop-color="#2B78FF" />
+            <stop offset="100%" stop-color="#22C55E" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#grad-icon)" />
+        <g transform="translate(24,24) scale(1.3) translate(-12,-12)">
+          <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+                fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="brand-name">Saúde Maps</span>
+    </a>
+
+    <ul class="menu" role="navigation" aria-label="Menu principal">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a></li>
+      <li><a routerLink="/triagem" routerLinkActive="active">Triagem</a></li>
+      <li><a routerLink="/resultados" routerLinkActive="active">Hospitais</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<!-- Hero (transparente, sem ondas) -->
+<section class="triage-hero">
+  <div class="container hero-wrap">
+    <div class="hero-copy">
+      <h1>Hospitais recomendados para você</h1>
+      <p class="lead">Ordenamos do mais adequado ao menos adequado com base nas suas respostas.</p>
+    </div>
+  </div>
+</section>
+
+<main class="page">
+  <section class="triage-wrap">
+
+    <!-- Info topo -->
+    <div class="result-head">
+      <span class="badge">Resultados</span>
+      <h2 class="subtitle">Melhores opções próximas</h2>
+      <p class="sublead">Baseado em distância, tempo de chegada e aderência às suas necessidades.</p>
+    </div>
+
+    <!-- Ações topo (botão voltar) -->
+    <div class="top-actions">
+      <button
+        class="btn btn-outline"
+        (click)="voltar()"
+        aria-label="Voltar para o formulário">
+        ← Voltar
+      </button>
+    </div>
+
+    <!-- Lista de hospitais (já ordenados no TS) -->
+    <ng-container *ngIf="hospitais?.length; else vazio">
+      <article class="hospital-card" *ngFor="let h of hospitais; index as i">
+        <div class="rank">{{ i + 1 }}</div>
+
+        <div class="photo">
+          <img [src]="h.fotoUrl || 'assets/hospital-placeholder.jpg'"
+               [alt]="'Foto do hospital ' + h.nome" loading="lazy" />
+        </div>
+
+        <div class="body">
+          <div class="title-row">
+            <h3 class="name">{{ h.nome }}</h3>
+
+            <div class="rating" aria-label="Avaliação do hospital">
+              <div class="stars">
+                <div class="stars-bg">
+                  <ng-container *ngFor="let s of [1,2,3,4,5]">
+                    <svg viewBox="0 0 24 24" class="star"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </ng-container>
+                </div>
+                <div class="stars-fg" [style.width.%]="(h.avaliacao||0)/5*100">
+                  <ng-container *ngFor="let s of [1,2,3,4,5]">
+                    <svg viewBox="0 0 24 24" class="star filled"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  </ng-container>
+                </div>
+              </div>
+              <span class="score">{{ h.avaliacao | number:'1.1-1' }}</span>
+              <span class="votes" *ngIf="h.qtdAvaliacoes">&nbsp;({{ h.qtdAvaliacoes }})</span>
+            </div>
+          </div>
+
+          <ul class="meta">
+            <li>
+              <svg viewBox="0 0 24 24" class="ico"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5Z"/></svg>
+              <span>{{ h.distanciaKm | number:'1.1-1' }} km</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" class="ico"><path d="M12 20a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Zm0-14a6 6 0 1 0 6 6 6.006 6.006 0 0 0-6-6Zm.5 6.21 3.29 1.9-.75 1.3L11 13V7h1.5Z"/></svg>
+              <span>{{ h.tempoChegadaMin }} min</span>
+            </li>
+            <li *ngIf="h.emergencia">
+              <svg viewBox="0 0 24 24" class="ico"><path d="M13 3h-2v6H5v2h6v6h2v-6h6V9h-6z"/></svg>
+              <span>Atende emergência</span>
+            </li>
+          </ul>
+
+          <div class="chips-wrap">
+            <span class="chip" *ngFor="let e of h.especialidades">{{ e }}</span>
+          </div>
+
+          <div class="actions">
+            <a href=""
+               class="btn btn-map"
+               (click)="abrirRota(h); $event.preventDefault()"
+               aria-label="Abrir rota no mapa">
+              <svg viewBox="0 0 24 24" class="ico" aria-hidden="true" role="img">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5Z"/>
+              </svg>
+              Ver no mapa
+            </a>
+            <a class="btn btn-primary"
+               [routerLink]="['/hospital', h.id]"
+               [state]="{ hospital: h }">
+              Detalhes
+            </a>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+
+    <ng-template #vazio>
+      <div class="empty">
+        <h3>Nenhum hospital encontrado</h3>
+        <p>Tente ajustar seus filtros ou refazer a triagem.</p>
+        <a routerLink="/triagem" class="btn btn-primary">Refazer triagem</a>
+      </div>
+    </ng-template>
+
+  </section>
+</main>

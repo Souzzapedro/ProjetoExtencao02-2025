@@ -1,5 +1,10 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
 /* Fonte moderna via Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+@import "leaflet/dist/leaflet.css";
+@import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
+
 
 /* Reset básico + tipografia global */
 * { box-sizing: border-box; }
@@ -19,3 +24,62 @@ h4, h5, h6 { font-weight: 700; }
 .hp-hero .container { padding-left: 0; padding-right: 0; }
 
 :root { --bs-body-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
+
+/* ——— Header (igual Home) ——— */
+.hp-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  background: transparent;
+
+  .hp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none;
+  }
+
+  .brand-icon {
+    filter: drop-shadow(0 4px 10px rgba(43,120,255,.25));
+    border-radius: 10px;
+  }
+
+  .brand-name {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 1;
+    background: linear-gradient(90deg, #2b78ff 0%, #22c55e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .menu {
+    list-style: none;
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+
+    a {
+      color: #334155;              /* $muted */
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.98rem;          /* <<< PADRONIZAÇÃO DO TAMANHO */
+      line-height: 1.1;
+      &:hover { color: #0f172a; }  /* $ink */
+    }
+
+    .active { color: #2b78ff; font-weight: 800; }
+  }
+}
+
+/* container padrão (se não tiver global) */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 1rem; }

@@ -1,1 +1,152 @@
-<p>hospital-detail works!</p>
+<header class="hp-header">
+  <nav class="container hp-nav">
+    <a class="brand brand-logo"
+       routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+       aria-label="Saúde Maps - Início">
+      <svg class="brand-icon" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true">
+        <defs>
+          <linearGradient id="grad-icon" x1="0%" y1="0%" x2="100%">
+            <stop offset="0%" stop-color="#2B78FF" />
+            <stop offset="100%" stop-color="#22C55E" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#grad-icon)" />
+        <g transform="translate(24,24) scale(1.3) translate(-12,-12)">
+          <path d="M12 21s-7.5-4.35-10-8.5C-0.5 7.9 2.42 3 7 3c2.2 0 3.57 1.06 5 2.58C13.43 4.06 14.8 3 17 3c4.58 0 7.5 4.9 5 9.5C19.5 16.65 12 21 12 21z"
+                fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="brand-name">Saúde Maps</span>
+    </a>
+
+    <ul class="menu" role="navigation" aria-label="Menu principal">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Início</a></li>
+      <li><a routerLink="/triagem" routerLinkActive="active">Triagem</a></li>
+      <li><a routerLink="/resultados" routerLinkActive="active">Hospitais</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<!-- Hero (transparente; usa fundo global) -->
+<section class="triage-hero hero-detalhe" *ngIf="hospital as h">
+  <div class="container hero-wrap">
+    <div class="hero-copy">
+      <h1>{{ h.nome }}</h1>
+      <p class="lead">{{ h.cidade }} - {{ h.uf }}</p>
+    </div>
+  </div>
+</section>
+
+<main class="page">
+  <section class="detalhe-wrap" *ngIf="hospital as h; else semDados">
+    <!-- Ações topo -->
+    <div class="top-actions">
+      <button class="btn btn-outline" (click)="voltar()">← Voltar</button>
+      <div class="spacer"></div>
+      <a class="btn btn-map" href="" (click)="abrirRota(h); $event.preventDefault()">Ver rota</a>
+      <a class="btn btn-primary" [href]="'tel:' + h.telefone">Ligar</a>
+    </div>
+
+    <!-- Carrossel -->
+    <div class="carousel" *ngIf="imagens?.length; else semImagens">
+      <div class="carousel-viewport">
+        <div class="carousel-track" [style.transform]="'translateX(-' + (slideAtual * 100) + '%)'">
+          <div class="slide" *ngFor="let img of imagens">
+            <img [src]="img" [alt]="'Foto do hospital ' + h.nome" />
+          </div>
+        </div>
+      </div>
+
+      <button class="nav prev" (click)="prev()" [attr.aria-label]="'Foto anterior'">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <button class="nav next" (click)="next()" [attr.aria-label]="'Próxima foto'">
+        <svg viewBox="0 0 24 24"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+
+      <div class="dots">
+        <button
+          *ngFor="let _ of imagens; index as i"
+          [class.active]="i === slideAtual"
+          (click)="go(i)"
+          [attr.aria-label]="'Ir para a foto ' + (i + 1)"></button>
+      </div>
+    </div>
+
+    <ng-template #semImagens>
+      <div class="carousel placeholder" *ngIf="hospital as h2">
+        <img [src]="h2.imagem" [alt]="'Foto do hospital ' + h2.nome" />
+      </div>
+    </ng-template>
+
+    <!-- Card de descrição / infos -->
+    <article class="card">
+      <header class="card-header">
+        <h2>Sobre o hospital</h2>
+        <div class="rating" aria-label="Avaliação do hospital">
+          <div class="stars">
+            <div class="stars-bg">
+              <ng-container *ngFor="let s of [1,2,3,4,5]">
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </ng-container>
+            </div>
+            <div class="stars-fg" [style.width.%]="(h.avaliacao||0)/5*100">
+              <ng-container *ngFor="let s of [1,2,3,4,5]">
+                <svg viewBox="0 0 24 24" class="star filled"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </ng-container>
+            </div>
+          </div>
+          <span class="score">{{ h.avaliacao | number:'1.1-1' }}</span>
+          <span class="votes" *ngIf="h.qtdAvaliacoes">&nbsp;({{ h.qtdAvaliacoes }})</span>
+        </div>
+      </header>
+
+      <div class="card-body" *ngIf="hospital as h3">
+        <p class="desc">{{ descricaoLonga }}</p>
+
+        <ul class="infos">
+          <li>
+            <svg viewBox="0 0 24 24" class="ico"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5Z"/></svg>
+            <strong>Endereço:</strong> {{ h3.endereco }}, {{ h3.cidade }} - {{ h3.uf }}
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" class="ico"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.56.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h2.5a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.24 1.05z"/></svg>
+            <strong>Telefone:</strong> {{ h3.telefone }}
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" class="ico"><path d="M13 3h-2v6H5v2h6v6h2v-6h6V9h-6z"/></svg>
+            <strong>Emergência:</strong> {{ h3.emergencia ? 'Atende' : 'Não atende' }}
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" class="ico"><path d="M12 20a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Zm0-14a6 6 0 1 0 6 6 6.006 6.006 0 0 0-6-6Zm.5 6.21 3.29 1.9-.75 1.3L11 13V7h1.5Z"/></svg>
+            <strong>Tempo estimado:</strong> {{ h3.tempoChegadaMin }} min &nbsp;•&nbsp;
+            <strong>Distância:</strong> {{ h3.distanciaKm | number:'1.1-1' }} km
+          </li>
+        </ul>
+
+        <div class="chips-wrap">
+          <span class="chip" *ngFor="let e of h3.especialidades">{{ e }}</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Ações base -->
+    <div class="bottom-actions" *ngIf="hospital as h4">
+      <button class="btn btn-outline" (click)="voltar()">← Voltar para resultados</button>
+      <div class="spacer"></div>
+      <a class="btn btn-map" href="" (click)="abrirRota(h4); $event.preventDefault()">Ver rota</a>
+      <a class="btn btn-primary" [href]="'tel:' + h4.telefone">Ligar</a>
+    </div>
+  </section>
+
+  <ng-template #semDados>
+    <section class="detalhe-wrap">
+      <div class="empty">
+        <h3>Não encontramos os dados do hospital.</h3>
+        <p>Tente voltar à lista e abrir os detalhes novamente.</p>
+        <a routerLink="/resultados" class="btn btn-primary">Voltar para resultados</a>
+      </div>
+    </section>
+  </ng-template>
+</main>

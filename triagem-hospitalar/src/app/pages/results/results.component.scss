@@ -1,0 +1,293 @@
+/* Fonte iOS (igual Home) */
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Paleta base (igual Home) */
+$blue:   #2b78ff;
+$green:  #22c55e;
+$blue-50: #eef6ff;
+$green-50:#effff6;
+$ink:    #0f172a;
+$muted:  #334155;
+
+/* Paleta roxo do modelo (Home) */
+$violet:  #7c3aed;
+$purple:  #6d28d9;
+$fuchsia: #d946ef;
+$magenta: #ef5da8;
+$indigo:  #4f46e5;
+$cyan:    #22d3ee;
+$gold:    #f59e0b;
+
+/* Util */
+$white: #fff;
+$border: #e6e8ee;
+
+.container { max-width: 1140px; margin: 0 auto; padding: 0 1rem; }
+
+/* ======== Fundo global (discreto e esfumaçado, cobrindo TODA a tela) ======== */
+:host {
+  position: relative;
+  display: block;
+  --page-layer-z: 1;
+}
+
+:host::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0; /* fica atrás de tudo */
+  pointer-events: none;
+  background:
+    /* radiais decorativas suaves */
+    radial-gradient(980px 420px at 84% 30%, rgba(34,197,94,.12), transparent 60%),
+    radial-gradient(1200px 520px at 12% 22%, rgba(43,120,255,.12), transparent 60%),
+    /* base claro azul→verde */
+    linear-gradient(180deg, $blue-50 0%, $green-50 100%);
+  filter: blur(0.0001px); /* “fix” de rendering sem mexer nas cores */
+}
+
+:host::after {
+  content: "";
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 32vh; /* faixa roxa discreta próxima ao final */
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba($violet,.28) 0%,
+      rgba($indigo,.20) 40%,
+      rgba(0,0,0,0) 100%
+    );
+  filter: saturate(105%);
+}
+
+/* ======== HEADER (EXATAMENTE como na Home) ======== */
+.hp-header {
+  position: absolute; inset: 0 0 auto 0; z-index: 10; background: transparent;
+
+  .hp-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .brand-logo { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; }
+
+  .brand-icon { filter: drop-shadow(0 4px 10px rgba(43,120,255,.25)); border-radius: 10px; }
+
+  .brand-name {
+    font-weight: 800; font-size: 20px; line-height: 1;
+    background: linear-gradient(90deg, $blue 0%, $green 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .menu {
+    list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0;
+
+    a {
+      color: $muted; text-decoration: none; font-weight: 600;
+      /* NÃO fixar font-size: herda como no Home */
+      &:hover { color: $ink; }
+    }
+
+    .active { color: $blue; font-weight: 800; }
+  }
+}
+
+/* ======== HERO (transparente; usa o fundo global) ======== */
+.triage-hero {
+  position: relative; z-index: var(--page-layer-z);
+  color: $ink; background: transparent;
+  padding: clamp(6.5rem, 9vw, 8.5rem) 0 2.5rem; /* garante respiro sob o header */
+
+  .hero-wrap { padding: 0; }
+  .hero-copy {
+    max-width: 760px; margin: 0; text-align: left; padding: 0 1rem;
+
+    h1 {
+      color: $ink; font-weight: 900; line-height: 1.05;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin: 0 0 .5rem;
+    }
+    .lead {
+      color: #475569; font-size: clamp(1rem, 1.6vw, 1.15rem); margin: 0;
+    }
+  }
+}
+
+/* ======== PÁGINA ======== */
+.page {
+  background: transparent; /* deixa ver o gradiente global */
+  z-index: var(--page-layer-z);
+  position: relative;
+  min-height: 100svh;
+  padding: 16px clamp(16px, 4vw, 32px) 40px;
+}
+
+.triage-wrap {
+  width: 100%;
+  max-width: 720px; /* um pouco mais largo que o form */
+  margin: 0 auto;
+}
+
+/* ======== Títulos / badges ======== */
+.result-head { margin-bottom: 12px; }
+.badge {
+  display: inline-block;
+  font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase;
+  background: #eef2ff; color: #3b5ccc; border: 1px solid #dbe4ff;
+  padding: 4px 10px; border-radius: 9999px;
+}
+.subtitle { margin: 8px 0 2px; font-size: 16px; font-weight: 800; color: #0b2a66; }
+.sublead { margin: 0; font-size: 13px; color: #6b7280; }
+
+/* ======== Ações topo ======== */
+.top-actions {
+  display: flex; align-items: center; gap: 8px;
+  margin: 8px 0 14px;
+}
+
+/* ======== Card do hospital (mantido) ======== */
+.hospital-card {
+  display: grid;
+  grid-template-columns: clamp(110px, 32vw, 100px) 1fr;
+  grid-template-areas:
+    "rank body"
+    "photo body";
+  gap: 10px;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(16,24,40,.06);
+  padding: 12px;
+  margin-bottom: 16px;
+  position: relative;
+
+  transition: transform .12s ease, box-shadow .18s ease;
+  &:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(16,24,40,.08); }
+}
+
+/* rank */
+.rank {
+  grid-area: rank;
+  align-self: start;
+  width: 45px;
+  height: 45px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, $blue, lighten($blue,10%));
+  color: #fff; font-weight: 900; font-size: clamp(16px, 3.6vw, 20px);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 18px rgba(43,120,255,.28);
+}
+
+/* foto quadrada */
+.photo {
+  grid-area: photo;
+  border-radius: 16px; overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+}
+
+/* corpo */
+.body { grid-area: body; display: grid; gap: 8px; }
+
+/* título + rating */
+.title-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+}
+.name { margin: 0; font-size: 16px; font-weight: 800; color: #0b2a66; }
+
+/* avaliação */
+.rating { display: inline-flex; align-items: center; gap: 6px; }
+.score { font-weight: 800; color: #0f172a; font-size: 14px; }
+.votes { color: #6b7280; font-size: 12px; }
+
+.stars { position: relative; width: 92px; height: 18px; }
+.stars-bg, .stars-fg { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+.star { width: 18px; height: 18px; fill: #e5e7eb; }
+.star.filled { fill: #f59e0b; }
+
+/* meta infos */
+.meta {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 10px 14px;
+  li { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #111827; }
+}
+.ico { width: 16px; height: 16px; fill: #475569; }
+
+/* especialidades (chips) */
+.chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  background: #f7f8fb; border: 1px solid $border; color: #0b2a66;
+  font-size: 11.5px;
+  font-weight: 600;
+  height: 30px;
+}
+
+/* ações */
+.actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px;
+}
+
+/* ===== Botões ===== */
+.btn {
+  border-radius: 9999px;
+  padding: 8px 12px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.1;
+  height: 40px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, $blue 0%, lighten($blue,10%) 100%);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(43,120,255,.25);
+  &:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(43,120,255,.32); }
+  &:focus-visible { outline: 3px solid rgba(43,120,255,.28); outline-offset: 2px; }
+}
+
+.btn-map {
+  text-decoration: none;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: #062e1e;
+  box-shadow: 0 6px 16px rgba(16,185,129,.25);
+  &:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(16,185,129,.32); }
+  &:active { transform: translateY(0); box-shadow: 0 4px 12px rgba(16,185,129,.22); }
+  &:focus-visible { outline: 3px solid rgba(16,185,129,.28); outline-offset: 2px; }
+}
+
+.btn-outline {
+  background: #f7f8fb; border: 1px solid $border; color: #0b2a66;
+  &:hover { background: #eef2ff; border-color: #d9e2ff; transform: translateY(-1px); }
+}
+
+.btn .ico { width: 16px; height: 16px; fill: currentColor; }
+
+/* vazio */
+.empty {
+  text-align: center; padding: 24px 0 10px;
+  h3 { margin: 0 0 6px; font-weight: 800; color: #0b2a66; }
+  p { margin: 0 0 12px; color: #6b7280; }
+}
+
+/* Touch target */
+@media (pointer: coarse) {
+  .btn { min-height: 40px; }
+}

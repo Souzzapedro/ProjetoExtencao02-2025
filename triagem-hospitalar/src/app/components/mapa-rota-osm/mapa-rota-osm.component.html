@@ -1,0 +1,10 @@
+<div class="map-wrapper" [class.loading]="carregandoRota">
+  <div id="osm-map" class="osm-map"></div>
+
+  <div class="painel-info" *ngIf="distanciaStr || duracaoStr">
+    <div class="pill"><span class="lbl">Distância:</span> {{ distanciaStr }}</div>
+    <div class="pill"><span class="lbl">Tempo:</span> {{ duracaoStr }}</div>
+  </div>
+
+  <div class="erro" *ngIf="erro">{{ erro }}</div>
+</div>

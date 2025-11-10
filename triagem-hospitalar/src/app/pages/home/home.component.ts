@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-currentYear = new Date().getFullYear();
+  currentYear = new Date().getFullYear();
   geoError: string | null = null;
   stats = { waitMin: 24, onDuty: 37, hospitals: 8 }; // TODO: substituir por dados reais via WebSocket/ApiService
 
@@ -26,7 +26,6 @@ currentYear = new Date().getFullYear();
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
-        // Envia as coordenadas na navegação para a tela de resultados
         this.router.navigate(['/resultados'], {
           queryParams: { lat: latitude, lng: longitude }
         });

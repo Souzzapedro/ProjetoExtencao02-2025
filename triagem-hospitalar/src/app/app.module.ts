@@ -8,6 +8,10 @@ import { FormComponent } from './pages/form/form.component';
 import { ResultsComponent } from './pages/results/results.component';
 import { HospitalDetailComponent } from './pages/hospital-detail/hospital-detail.component';
 import { ConfirmComponent } from './pages/confirm/confirm.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MapaRotaComponent } from './components/mapa-rota/mapa-rota.component';
+import { MapaRotaOsmComponent } from './components/mapa-rota-osm/mapa-rota-osm.component';
+import { RotaGoogleComponent } from './components/rota-google/rota-google.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,12 @@ import { ConfirmComponent } from './pages/confirm/confirm.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    MapaRotaComponent,
+    ReactiveFormsModule,
+    MapaRotaOsmComponent,
+    RotaGoogleComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

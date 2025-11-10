@@ -1,0 +1,86 @@
+<div class="rota-card">
+  <h2>Abrir rota no Google Maps</h2>
+
+  <form [formGroup]="form" (ngSubmit)="abrirNoGoogleMaps()">
+    <fieldset class="fs">
+      <label class="switch">
+        <input type="checkbox" formControlName="usarMinhaLocalizacao" />
+        <span>Usar minha localização atual</span>
+      </label>
+
+      <button type="button"
+              class="btn btn-geo"
+              (click)="usarLocalizacaoAtual()"
+              [disabled]="buscandoLocalizacao()">
+        {{ buscandoLocalizacao() ? 'Buscando...' : 'Detectar localização' }}
+      </button>
+
+      <div class="hint" *ngIf="erroGeo()">{{ erroGeo() }}</div>
+    </fieldset>
+
+    <div class="grid">
+      <div class="col">
+        <div class="legend">Origem (lat, lng)</div>
+
+        <div class="row">
+          <label>
+            Lat
+            <input class="cell" type="text" formControlName="origemLat" placeholder="-16,6869" />
+            <small class="err" *ngIf="form.get('origemLat')?.touched && form.get('origemLat')?.errors?.['latRange']">
+              Latitude deve estar entre -90 e 90
+            </small>
+          </label>
+
+          <label>
+            Lng
+            <input class="cell" type="text" formControlName="origemLng" placeholder="-43,8343" />
+            <small class="err" *ngIf="form.get('origemLng')?.touched && form.get('origemLng')?.errors?.['lngRange']">
+              Longitude deve estar entre -180 e 180
+            </small>
+          </label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="legend">Destino (lat, lng)</div>
+
+        <div class="row">
+          <label>
+            Lat
+            <input class="cell" type="text" formControlName="destinoLat" placeholder="-16,6869" />
+            <small class="err" *ngIf="form.get('destinoLat')?.touched && form.get('destinoLat')?.errors?.['latRange']">
+              Latitude deve estar entre -90 e 90
+            </small>
+            <small class="err" *ngIf="form.get('destinoLat')?.touched && form.get('destinoLat')?.errors?.['required']">
+              Informe a latitude do destino
+            </small>
+          </label>
+
+          <label>
+            Lng
+            <input class="cell" type="text" formControlName="destinoLng" placeholder="-43,8343" />
+            <small class="err" *ngIf="form.get('destinoLng')?.touched && form.get('destinoLng')?.errors?.['lngRange']">
+              Longitude deve estar entre -180 e 180
+            </small>
+            <small class="err" *ngIf="form.get('destinoLng')?.touched && form.get('destinoLng')?.errors?.['required']">
+              Informe a longitude do destino
+            </small>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="modo">
+        Modo
+        <select class="cell" formControlName="modo">
+          <option *ngFor="let m of modos" [value]="m.v">{{ m.t }}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Abrir no Google Maps</button>
+    </div>
+  </form>
+</div>

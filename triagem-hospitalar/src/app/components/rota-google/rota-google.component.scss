@@ -1,0 +1,100 @@
+.rota-card {
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 12px;
+  background: #fff;
+}
+
+h2 {
+  margin: 0 0 .75rem 0;
+  font-size: 1.125rem;
+}
+
+.fs {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: .75rem;
+
+  .hint { color: #b00020; font-size: .875rem; }
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  user-select: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+}
+
+.col .legend {
+  font-weight: 600;
+  margin-bottom: .25rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+
+label {
+  display: grid;
+  gap: .25rem;
+  font-size: .92rem;
+}
+
+.cell {
+  width: 100%;
+  padding: .5rem .6rem;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.err {
+  color: #b00020;
+  font-size: .8rem;
+}
+
+.modo {
+  width: 240px;
+  margin-top: .5rem;
+}
+
+.actions {
+  margin-top: .75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .8rem;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  background: #f6f8fa;
+  cursor: pointer;
+
+  &.btn-primary {
+    background: #0a84ff;
+    border-color: #0a84ff;
+    color: #fff;
+  }
+
+  &.btn-geo {
+    background: #eaf4ff;
+    border-color: #b6d7ff;
+    color: #084b9a;
+  }
+
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+}

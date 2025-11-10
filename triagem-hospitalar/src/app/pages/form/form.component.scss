@@ -1,0 +1,313 @@
+/* ===== Fonte iOS (igual Home) ===== */
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ===== Paleta base (igual Home) ===== */
+$blue:   #2b78ff;
+$green:  #22c55e;
+$blue-50: #eef6ff;
+$green-50:#effff6;
+$ink:    #0f172a;
+$muted:  #334155;
+
+/* Roxos do modelo (Home) */
+$violet:  #7c3aed;
+$indigo:  #4f46e5;
+
+/* ===== Util ===== */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 1rem; }
+
+/* =========================
+   FUNDO GLOBAL (cobre 100% da tela)
+   ========================= */
+:host {
+  position: relative;
+  display: block;
+  --z-page: 10; /* conteúdo acima do fundo */
+}
+
+/* Camada base azul→verde + radiais (igual Home) */
+:host::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;             /* garante que nunca cobre o header */
+  pointer-events: none;
+  background:
+    radial-gradient(980px 420px at 84% 30%, rgba(34,197,94,.10), transparent 60%),
+    radial-gradient(1200px 520px at 12% 22%, rgba(43,120,255,.10), transparent 60%),
+    linear-gradient(180deg, $blue-50 0%, $green-50 100%);
+}
+
+/* Faixa roxa discreta no rodapé com feather */
+:host::after {
+  content: "";
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 26vh;           /* menor para ficar mais sutil */
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba($violet,.18) 0%,
+      rgba($indigo,.12) 35%,
+      rgba(0,0,0,0) 100%
+    );
+  /* esfumace as bordas superiores */
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,.5) 70%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 40%, rgba(0,0,0,.5) 70%, rgba(0,0,0,0) 100%);
+}
+
+/* =========================
+   HEADER (idêntico ao Home)
+   ========================= */
+.hp-header {
+  position: absolute; inset: 0 0 auto 0;
+  z-index: calc(var(--z-page) + 20);
+  background: transparent;
+  pointer-events: auto;
+
+  .hp-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-logo { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; }
+
+  .brand-icon { filter: drop-shadow(0 4px 10px rgba(43,120,255,.25)); border-radius: 10px; }
+
+  .brand-name {
+    font-weight: 800; font-size: 20px; line-height: 1;
+    background: linear-gradient(90deg, $blue 0%, $green 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .menu {
+    list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0;
+
+    /* Removido font-size explícito para herdar exatamente como no Home */
+    a {
+      color: $muted;
+      text-decoration: none;
+      font-weight: 600;
+      line-height: 1.15;
+      &:hover { color: $ink; }
+    }
+
+    .active { color: $blue; font-weight: 800; } /* routerLinkActive */
+  }
+}
+
+/* =========================
+   HERO (transparente; usa fundo global)
+   ========================= */
+.hp-hero.light-hero {
+  position: relative;
+  color: $ink;
+  z-index: var(--z-page);
+  background: transparent; /* não cobre o gradiente global */
+
+  /* respiro similar ao Home */
+  padding: clamp(3rem, 6vw, 6rem) 0 2.6rem;
+
+  .hero-wrap { display: grid; place-items: start; }
+  .hero-copy { max-width: 760px; text-align: left; }
+
+  h1 { font-weight: 900; line-height: 1.05; font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: .5rem; color: $ink; }
+  .lead { color: #475569; font-size: clamp(1rem, 1.6vw, 1.15rem); margin-bottom: 0; }
+}
+
+/* =========================
+   CONTEÚDO / FORM (inalterado)
+   ========================= */
+$border: #e6e8ee;
+$azure: #2b78ff;
+$azure-2: #4ca2ff;
+
+.page {
+  background: transparent;
+  min-height: 100svh;
+  z-index: var(--z-page);
+  position: relative;
+  padding: 16px clamp(16px, 4vw, 32px) 40px;
+}
+
+.triage-wrap { width: 100%; max-width: 420px; margin: 0 auto; }
+
+/* Voltar */
+.back-title {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  margin: 6px 0 10px; color: #0b2a66; font-weight: 900; font-size: 18px; letter-spacing: .2px;
+  .ico { width: 18px; height: 18px; fill: currentColor; }
+  &:hover { color: #183e8c; }
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  border: 1px solid $border;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(16,24,40,.06);
+  padding: 14px;
+}
+
+/* Fieldset/Legend */
+.fieldset { border: 0; padding: 0; margin: 0 0 12px; }
+.legend { font-weight: 800; color: #0b2a66; margin: 0 0 8px; font-size: 14px; letter-spacing: .2px; }
+
+/* Campos */
+.field {
+  display: flex; flex-direction: column; gap: 6px;
+
+  label { font-weight: 600; color: #1f2a44; font-size: 13px; }
+
+  input {
+    appearance: none; width: 100%;
+    border: 1px solid $border; background: #fbfbfd; color: #111827;
+    border-radius: 14px; padding: 12px 14px; outline: none; font-size: 15px;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    &:focus { background: #fff; border-color: $azure; box-shadow: 0 0 0 6px rgba(43,120,255,.18); }
+    &::placeholder { color: #9ca3af; }
+  }
+
+  .hint { color: #c53939; font-size: 12px; }
+  .label-descricao { margin-top: 8px; }
+}
+
+/* Segmented (sexo) */
+.segmented {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid $border; border-radius: 9999px; padding: 4px; background: #f7f8fb; gap: 4px;
+}
+.segment { display: grid; place-items: center; }
+.segment-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .6rem .9rem; border-radius: 9999px; font-weight: 700;
+  color: #344054;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .08s ease;
+}
+.segment:hover .segment-pill { transform: translateY(-1px); }
+.segment .peer:checked + .segment-pill {
+  background: linear-gradient(135deg, $azure, $azure-2);
+  color: #fff; box-shadow: 0 10px 22px rgba(43,120,255,.22);
+}
+
+/* Chips */
+.chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 9999px; padding: 8px 12px;
+  border: 1px solid $border; background: #f7f8fb; color: #0b2a66;
+  transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  input { display: none; }
+  span { font-weight: 600; font-size: 13px; }
+  &:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(10,132,255,.12); }
+}
+.chip.selectable input:checked + span {
+  background: linear-gradient(135deg, $azure, $azure-2);
+  padding: 4px 10px; border-radius: 9999px; color: #fff; border: 0;
+}
+
+.micro-tip { margin-top: 6px; font-size: 12px; color: #6b7280; }
+
+/* Switch (gestante) */
+.toggle-line { display: flex; align-items: center; gap: 10px; margin-top: 6px; color: #0b2a66; font-weight: 600; font-size: 14px; }
+.switch {
+  position: relative; display: inline-block; width: 52px; height: 30px;
+  input { display: none; }
+  .slider {
+    position: absolute; inset: 0; cursor: pointer;
+    background: #e5e7eb; border-radius: 999px; transition: .2s;
+    &:before {
+      content: ""; position: absolute; height: 22px; width: 22px; left: 4px; top: 4px;
+      background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 4px rgba(0,0,0,.18);
+    }
+  }
+  input:checked + .slider { background: linear-gradient(135deg, $azure, $azure-2); }
+  input:checked + .slider:before { transform: translateX(22px); }
+}
+
+/* Ações / CTA */
+.actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 8px; }
+
+.btn {
+  border-radius: 9999px; padding: 14px 18px; font-weight: 800; letter-spacing: .2px;
+  transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  border: 0; cursor: pointer; font-family: inherit;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #2b78ff 0%, #34d399 100%);
+  color: #fff;
+  &:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(43,120,255,.28); }
+  &:active { transform: translateY(0); box-shadow: 0 4px 12px rgba(43,120,255,.22); }
+  &:focus-visible { outline: 3px solid rgba(43,120,255,.28); outline-offset: 2px; }
+}
+
+/* Touch target */
+@media (pointer: coarse) { input, .btn { min-height: 44px; } }
+
+/* ====== RESTAURAR “SEXO” (segmentado em pílulas) ====== */
+
+/* Utilidade de acessibilidade (garante que o input siga invisível porém focável) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Container das pílulas */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid $border;
+  border-radius: 9999px;
+  background: #f7f8fb;
+}
+
+/* Label de cada opção vira “pílula” clicável */
+.segment {
+  display: grid;
+  place-items: center;
+  cursor: pointer; /* importante para não parecer um select “quebrado” */
+  position: relative;
+}
+
+/* Visual da pílula */
+.segment-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem .9rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: #344054;
+  transition: background .18s ease, color .18s ease,
+              box-shadow .18s ease, transform .08s ease;
+}
+
+/* Hover sutil */
+.segment:hover .segment-pill {
+  transform: translateY(-1px);
+}
+
+/* Estado selecionado (input.checked) */
+.segment .peer:checked + .segment-pill {
+  background: linear-gradient(135deg, $azure, $azure-2);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(43,120,255,.22);
+}
+
+/* Foco pelo teclado (quando o input recebe focus) */
+.segment .peer:focus-visible + .segment-pill {
+  outline: 3px solid rgba(43,120,255,.28);
+  outline-offset: 2px;
+}
